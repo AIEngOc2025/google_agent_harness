@@ -1,0 +1,6 @@
+schema_version: 1.0
+model_api: "google-cloud/gemini-3.8-flash"
+harness:
+  entrypoint: "serve.py"
+  timeout_seconds: 21600
+  max_iterations: 30
