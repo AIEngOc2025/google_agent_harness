@@ -64,9 +64,13 @@ def start_server(port: int = 8000) -> None:
     @return : None
     """
     # configuration de la reutilisation d'adresse
-    socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("0.0.0.0", port), MockProxyHandler) as httpd:
-        httpd.serve_forever()
+    try:
+        socketserver.TCPServer.allow_reuse_address = True
+        with socketserver.TCPServer(("0.0.0.0", port), MockProxyHandler) as httpd:
+            httpd.serve_forever()
+    except OSError:
+        # port deja en ecoute, service deja actif
+        pass
 
 
 if __name__ == "__main__":
