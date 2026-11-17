@@ -16,3 +16,8 @@ rapport_technique_livrable.txt
 # Système d'exploitation
 .DS_Store
 Thumbs.db
+
+# Competition kit clone
+competition_kit/
+env.txt
+

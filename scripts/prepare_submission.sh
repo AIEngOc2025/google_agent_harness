@@ -4,7 +4,12 @@
 # prepare_submission.sh – automate the final packaging steps
 # ------------------------------------------------------------
 
-# 1. Commit any untracked or modified files (kit check tests the current git commit)
+# 1. Clean up invalid submodule reference if present
+if git ls-files --stage competition_kit | grep -q "competition_kit"; then
+  git rm --cached competition_kit 2>/dev/null || true
+fi
+
+# 2. Commit any untracked or modified files (kit check tests the current git commit)
 git add .
 git commit -m "prepare: update harness and submission package" || true
 
