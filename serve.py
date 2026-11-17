@@ -1,6 +1,5 @@
 # Point d'entrée serveur (serve.py) requis pour l'évaluation Kaggle PLE
 
-import sys
 import json
 import argparse
 from typing import Dict, Any
@@ -9,9 +8,9 @@ from harness import execute_harness
 
 def process_request(payload: Dict[str, Any]) -> Dict[str, Any]:
     """
-    @definition : traite une requête d'évaluation Kaggle en exécutant le harnais sur la tâche reçue
-    @args/params : payload (Dict[str, Any]) dictionnaire contenant la tâche et le chemin du dossier
-    @return : Dict[str, Any] résultat sérialisable retourné à la plateforme d'évaluation
+    @definition : traite une requête en exécutant le harnais sur la tâche
+    @args/params : payload (Dict[str, Any]) tâche et chemin du dossier
+    @return : Dict[str, Any] résultat sérialisable pour la plateforme
     """
     # extraction des paramètres de la requête
     task = payload.get("task", "Tâche d'ingénierie physique non spécifiée")
@@ -27,18 +26,31 @@ def process_request(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 def main() -> None:
     """
-    @definition : fonction principale pour le serveur d'inférence en ligne de commande
-    @args/params : aucun (arguments récupérés via sys.argv)
+    @definition : fonction principale pour le serveur en ligne de commande
+    @args/params : aucun (arguments récupérés via argparse)
     @return : None
     """
     # analyse des arguments CLI
-    parser = argparse.ArgumentParser(description="Serveur du harnais d'agent Kaggle PLE")
-    parser.add_argument("--task", type=str, default="Tâche test baseline d'ingénierie", help="Description de la tâche")
-    parser.add_argument("--workspace", type=str, default=".", help="Répertoire de travail de la tâche")
+    parser = argparse.ArgumentParser(
+        description="Serveur du harnais d'agent Kaggle PLE"
+    )
+    parser.add_argument(
+        "--task",
+        type=str,
+        default="Tâche test baseline d'ingénierie",
+        help="Description de la tâche",
+    )
+    parser.add_argument(
+        "--workspace",
+        type=str,
+        default=".",
+        help="Répertoire de travail de la tâche",
+    )
     args = parser.parse_args()
 
     # exécution et affichage du résultat JSON
-    response = process_request({"task": args.task, "workspace_dir": args.workspace})
+    req = {"task": args.task, "workspace_dir": args.workspace}
+    response = process_request(req)
     print(json.dumps(response, indent=2, ensure_ascii=False))
 
 

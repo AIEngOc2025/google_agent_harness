@@ -57,3 +57,25 @@ A benchmark run was performed using `eval/run.py` to establish our starting perf
 ## 4. Failure Analysis & Roadmap for Iterations
 - **Context Overload:** Complex workspaces containing >100 CAD/IFC4 files require semantic filtering rather than raw listing.
 - **Next Enhancements:** Integration of specialized engineering parsers (IFC4 geometry extractors, XLSX formula parsers) and multi-agent peer review loops.
+
+## 3.1 Benchmark Metrics
+
+| Task ID | Discipline | Duration (s) | Iterations | Status |
+|---|---|---|---|---|
+| dev_task_01 | Structure | 0.304 | 4 | SUCCESS |
+| dev_task_02 | Civil | 0.115 | 4 | SUCCESS |
+| dev_task_03 | Électrique | 0.112 | 4 | SUCCESS |
+| dev_task_04 | Mécanique | 0.111 | 4 | SUCCESS |
+
+**Overall:** 4 / 4 tasks succeeded (100 %). Total duration: 0.644 s.
+
+## Figures
+
+### Architecture Diagram
+![](graphics/architecture_agent.mmd)
+
+### Architecture Model Harness
+![](graphics/architecture_model_harness.mmd)
+
+### Architecture (general)
+![](graphics/architecture.mmd)

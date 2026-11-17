@@ -1,0 +1,30 @@
+flowchart LR
+    subgraph LocalRepo[Local Repository]
+        subgraph Harness[Agent Harness]
+            H((harness.py))
+            S((serve.py))
+            C((submission.yaml))
+        end
+        subgraph Tools[Outils Métiers]
+            T1[Calcul Poutre]
+            T2[Parsing IFC4]
+            T3[Analyse XLSX]
+        end
+        subgraph Artifacts[Artifacts]
+            A1[artifacts/]
+        end
+    end
+    subgraph KaggleProxy[Proxy d'évaluation Kaggle]
+        M[Modèle LLM (injecté)]
+    end
+    H --> M
+    H --> T1
+    H --> T2
+    H --> T3
+    H --> A1
+    S --> M
+    S --> A1
+    C --> H
+    C --> S
+    style LocalRepo fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style KaggleProxy fill:#e8f4ff,stroke:#0066cc,stroke-width:1px

@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph Agent[Agent Architecture]
+        S[serve.py] --> H[harness.py]
+        H -->|Prompt + Context| L[LLM (via Proxy)]
+        L -->|Response| T[Tool Manager]
+        T -->|Invoke| O1[Calcul Poutre]
+        T -->|Invoke| O2[Parsing IFC4]
+        T -->|Invoke| O3[Analyse XLSX]
+        O1 --> V[Validator]
+        O2 --> V
+        O3 --> V
+        V --> A[Artifacts (artifacts/)]
+        A --> H
+        H -->|Result| S
+    end

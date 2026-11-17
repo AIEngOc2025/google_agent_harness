@@ -1,0 +1,31 @@
+flowchart LR
+    subgraph KaggleProxy[Proxy d'évaluation Kaggle]
+        M[Modèle LLM (injecté)]
+    end
+    subgraph Harness[Agent Harness]
+        H[harness.py]
+        S[serve.py]
+        C[submission.yaml]
+    end
+    subgraph Tools[Outils Métiers]
+        T1[Calcul Poutre]
+        T2[Parsing IFC4]
+        T3[Analyse XLSX]
+    end
+    subgraph Artifacts[Artifacts]
+        A[artifacts/]
+    end
+    
+    H --> M
+    H --> T1
+    H --> T2
+    H --> T3
+    H --> A
+    S --> M
+    S --> A
+    C --> H
+    C --> S
+    style KaggleProxy fill:#e8f4ff,stroke:#0066cc,stroke-width:1px
+    style Harness fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Tools fill:#f0fff0,stroke:#2c7a7b,stroke-width:1px
+    style Artifacts fill:#fff5e6,stroke:#b8860b,stroke-width:1px

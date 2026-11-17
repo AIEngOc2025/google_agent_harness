@@ -1,0 +1,6 @@
+Capteur_ID,Position_x_m,Deformation_micro_def,Statut
+CAPT_01,1.0,120,OK
+CAPT_02,2.0,245,OK
+CAPT_03,3.0,310,OK
+CAPT_04,4.0,240,OK
+CAPT_05,5.0,115,OK
