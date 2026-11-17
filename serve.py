@@ -1,14 +1,41 @@
 # Point d'entrée serveur (serve.py) requis pour l'évaluation Kaggle PLE
 
-import json
 import argparse
-from typing import Dict, Any
+import json
+import os
+from typing import Any, Dict
 from harness import execute_harness
+
+try:
+    import taskbridge
+except ImportError:
+    taskbridge = None
+
+
+async def solve(session: Any) -> str:
+    """
+    @definition : résout une tâche d'ingénierie physique reçue via le protocole PLEBench
+    @args/params : session (taskbridge.Session) session WebSocket de la tâche
+    @return : str message final de synthèse pour l'évaluateur
+    """
+    # extraction de la tâche et du répertoire de travail
+    task_desc = getattr(session, "task", None) or "Tâche d'ingénierie physique"
+    workdir = getattr(session, "workdir", None) or "/app"
+
+    # exécution du harnais d'ingénierie
+    resultat = execute_harness(task_description=task_desc, workspace_dir=workdir)
+
+    # journalisation dans la session
+    if hasattr(session, "log"):
+        await session.log("Harnais exécuté avec succès.")
+
+    # retour de la synthèse finale
+    return f"Tâche terminée: {resultat.get('status', 'ok')}"
 
 
 def process_request(payload: Dict[str, Any]) -> Dict[str, Any]:
     """
-    @definition : traite une requête en exécutant le harnais sur la tâche
+    @definition : traite une requête locale en exécutant le harnais sur la tâche
     @args/params : payload (Dict[str, Any]) tâche et chemin du dossier
     @return : Dict[str, Any] résultat sérialisable pour la plateforme
     """
@@ -26,11 +53,16 @@ def process_request(payload: Dict[str, Any]) -> Dict[str, Any]:
 
 def main() -> None:
     """
-    @definition : fonction principale pour le serveur en ligne de commande
-    @args/params : aucun (arguments récupérés via argparse)
+    @definition : fonction principale pour le serveur WebSocket ou la CLI
+    @args/params : aucun
     @return : None
     """
-    # analyse des arguments CLI
+    # si la variable d'environnement PORT est définie, démarrer le serveur WebSocket
+    if "PORT" in os.environ and taskbridge is not None:
+        taskbridge.run(solve)
+        return
+
+    # analyse des arguments CLI pour exécution hors conteneur
     parser = argparse.ArgumentParser(
         description="Serveur du harnais d'agent Kaggle PLE"
     )
