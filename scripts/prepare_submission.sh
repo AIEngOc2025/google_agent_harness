@@ -14,7 +14,7 @@ git add .
 git commit -m "prepare: update harness and submission package" || true
 
 # 2. Verify repository integrity with the official kit check
-uv run python -m kit check . --no-smoke --env-file env.txt
+uv run python -m kit check . --no-smoke
 if [ $? -ne 0 ]; then
   echo "[ERROR] kit check failed. Resolve issues before proceeding."
   exit 1
