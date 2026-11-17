@@ -14,8 +14,10 @@ git add .
 git commit -m "prepare: update harness and submission package" || true
 
 # 2. Verify repository integrity with the official kit check
-export MODEL_PROXY_URL=none
+export MODEL_PROXY_URL=http://127.0.0.1:8000
 export MODEL_PROXY_KEY=none
+# start a minimal dummy HTTP server so the proxy URL is reachable
+uv run python -c "import http.server, socketserver, threading; server=socketserver.TCPServer(('127.0.0.1',8000), http.server.SimpleHTTPRequestHandler); threading.Thread(target=server.serve_forever, daemon=True).start()"
 uv run python -m kit check . --no-smoke
 if [ $? -ne 0 ]; then
   echo "[ERROR] kit check failed. Resolve issues before proceeding."
