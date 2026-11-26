@@ -1,0 +1,35 @@
+# Environnements virtuels
+.venv/
+venv/
+ENV/
+/.env
+
+# Byte-compiled / cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Fichiers temporaires et de test
+fetch_competition_desc*.py
+rapport_technique_livrable.txt
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Competition kit clone
+competition_kit/
+env.txt
+
+
+# Exclusions soumission PLE (< 1 GiB)
+artifacts/
+runs/
+data/
+baseline_agent_harness/
+competition_kit/
+.venv/
+__pycache__/
+*.pyc
+*.whl
