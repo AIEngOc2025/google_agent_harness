@@ -365,6 +365,16 @@ Avant de conclure, assure-toi que tous les livrables demandés ont été génér
     max_duration = config.MAX_EXECUTION_TIME_SEC - 600
 
     for turn in range(max_turns):
+        if turn in (7, 13):  # Tours 8 et 14 (0-indexed)
+            _sub_files = list((Path(session.workdir) / "submission").glob("*")) if (Path(session.workdir) / "submission").is_dir() else []
+            if not any(f.is_file() and f.stat().st_size > 50 for f in _sub_files):
+                messages.append({
+                    "role": "user",
+                    "content": (
+                        f"[MILESTONE PACING CHECK - Turn {turn + 1}]: Stop exploratory snippets now. "
+                        "Write and run a complete Python script that solves all constraints and generates the required deliverable file(s) on disk immediately, so you have time to run deterministic verification and refine."
+                    ),
+                })
         if hasattr(session, "time_left"):
             remaining = session.time_left()
             if remaining is not None and remaining <= 0:
